@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Wallet Vector for TripSplit -->
+  <rect x="10" y="18" width="44" height="32" rx="6" fill="#0C4137" stroke="#06D6A0" stroke-width="2" />
+  <path d="M10 26 H54" stroke="#2BBAA5" stroke-width="1.5" />
+  <path d="M38 28 H54 V40 H38 C35 40 35 28 38 28 Z" fill="#2BBAA5" stroke="#06D6A0" stroke-width="1.5" />
+  <circle cx="46" cy="34" r="2.5" fill="#FAECB6" />
+  <!-- Rupee / cash symbol hint -->
+  <circle cx="22" cy="38" r="6" stroke="#93D3AE" stroke-width="1.5" />
+</svg>

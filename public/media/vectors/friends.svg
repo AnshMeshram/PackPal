@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Friends Vector -->
+  <circle cx="22" cy="22" r="8" fill="#0C4137" />
+  <circle cx="42" cy="22" r="8" fill="#2BBAA5" />
+  <path d="M10 46 C10 38 15 34 22 34 C29 34 34 38 34 46" fill="#0C4137" />
+  <path d="M30 46 C30 38 35 34 42 34 C49 34 54 38 54 46" fill="#06D6A0" opacity="0.9" />
+  <!-- Heart or smile accent -->
+  <circle cx="32" cy="18" r="4" fill="#F9A822" />
+</svg>

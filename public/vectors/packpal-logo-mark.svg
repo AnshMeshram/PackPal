@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- PackPal Square Brand Mark -->
+  <rect width="80" height="80" rx="18" fill="#E6FBF6" />
+  <!-- Suitcase Body -->
+  <rect x="15" y="24" width="50" height="42" rx="8" fill="#0C4137" />
+  <rect x="15" y="24" width="50" height="42" rx="8" stroke="#06D6A0" stroke-width="2.5" />
+  <!-- Handle -->
+  <path d="M32 24 V17 C32 14 36 12 40 12 C44 12 48 14 48 17 V24" stroke="#0C4137" stroke-width="3" stroke-linecap="round" fill="none" />
+  <path d="M34 24 V18 C34 16 37 14 40 14 C43 14 46 16 46 18 V24" stroke="#06D6A0" stroke-width="2" stroke-linecap="round" fill="none" />
+  <!-- Straps -->
+  <line x1="28" y1="24" x2="28" y2="66" stroke="#06D6A0" stroke-width="2" stroke-dasharray="3 3" opacity="0.5" />
+  <line x1="52" y1="24" x2="52" y2="66" stroke="#06D6A0" stroke-width="2" stroke-dasharray="3 3" opacity="0.5" />
+  <!-- Pin / Check Center -->
+  <circle cx="40" cy="45" r="11" fill="#06D6A0" />
+  <path d="M35 45 L38.5 48.5 L46 41.5" stroke="#0C4137" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

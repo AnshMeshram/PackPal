@@ -1,26 +1,384 @@
 @import "tailwindcss";
 
+/* ============================================================
+   PACKPAL — Editorial Travel Journal Design System
+   Phase 2 Design Tokens (Single Source of Truth)
+   Identity: Brunswick Green + Emerald + Polar + Warm Paper
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Master Brand Palette (Exact Phase 2 Spec) ── */
+  --green-900: #0C4137;   /* brand, nav, headings, dark sections */
+  --green-700: #14594B;   /* hover/pressed on dark */
+  --emerald: #06D6A0;     /* fills/progress/active ONLY (never body text on light) */
+  --emerald-ink: #04624A; /* emerald-family text on light (AA verified >= 4.5:1) */
+  --polar: #E6FBF6;       /* soft surfaces, progress tracks */
+  --paper: #FBF8F1;       /* main page background (warm editorial parchment) */
+  --cream: #FAECB6;       /* journal notes, tags, tickets */
+  --teal: #2BBAA5;        /* illustration accent */
+  --sage: #93D3AE;        /* soft fills */
+  --amber: #F9A822;       /* warnings only (luggage approaching limit) */
+  --coral: #F96635;       /* danger/attention only (deletions, over-limit) */
+  --ink: #1B2A25;         /* body text on light (high contrast >= 13:1 on paper) */
+  --ink-muted: #4A5B55;   /* secondary text (high contrast >= 5.5:1 on paper) */
+  --rule: #D9D2C0;        /* thin 1px dividers */
+
+  /* ── Semantic System Mappings ── */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card-bg: #FFFFFF;
+  --card-border: var(--rule);
+  --card-hover-border: var(--green-900);
+  --muted: var(--ink-muted);
+  --danger: var(--coral);
+  --warning: var(--amber);
+  --success: var(--emerald-ink);
+
+  /* ── Typography Scale ── */
+  --font-heading: 'DM Serif Display', 'Georgia', serif;
+  --font-body: var(--font-geist-sans), 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), 'JetBrains Mono', monospace;
+
+  /* ── Shape & Depth Tokens (Phase 2 Spec) ── */
+  --radius-sm: 6px;       /* inputs, buttons, tags, pills */
+  --radius-md: 12px;      /* panels, journal cards, modals */
+  --radius-full: 9999px;  /* avatars, circular status dots */
+
+  /* ── Shadows: none by default; subtle modal shadow only ── */
+  --shadow-none: none;
+  --shadow-modal: 0 12px 36px rgba(27, 42, 37, 0.12);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   BASE RESETS & TACTILE PAPER GRAIN TEXTURE
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+::selection {
+  background: var(--polar);
+  color: var(--green-900);
+}
+
+/* ============================================================
+   TYPOGRAPHY RULES & CLAMPS
+   ============================================================ */
+
+h1, .h1-display {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--green-900);
+}
+
+h2, .h2-display {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--green-900);
+}
+
+h3, .h3-display {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--green-900);
+}
+
+.text-meta {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+/* ============================================================
+   PANEL & CONTAINER SYSTEM (NO EXCESSIVE SHADOWS / NO BLURS)
+   ============================================================ */
+
+.panel {
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.panel-polar {
+  background: var(--polar);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.panel-cream {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.card {
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.card:hover {
+  border-color: var(--green-900);
+}
+
+/* ============================================================
+   BUTTON SYSTEM (UNIFIED LANGUAGE ACROSS EVERY SCREEN)
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  transition: all 0.15s ease-out;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  outline: none;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--emerald-ink);
+  outline-offset: 2px;
+}
+
+/* Primary Button: Green-900 fill, Paper text, 6px radius */
+.btn-primary {
+  background: var(--green-900);
+  color: var(--paper);
+  border-color: var(--green-900);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--green-700);
+  border-color: var(--green-700);
+}
+
+/* Secondary Button: Transparent, 1.5px Green-900 border, Green-900 text */
+.btn-secondary {
+  background: transparent;
+  color: var(--green-900);
+  border: 1.5px solid var(--green-900);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--polar);
+}
+
+/* Accent Button (rare, max 1 per screen): Emerald fill with Green-900 text */
+.btn-accent {
+  background: var(--emerald);
+  color: var(--green-900);
+  border-color: var(--emerald);
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: #2fe0b1;
+}
+
+/* Destructive Button: Coral outline; fill only on confirm */
+.btn-destructive {
+  background: transparent;
+  color: var(--coral);
+  border: 1.5px solid var(--coral);
+}
+
+.btn-destructive:hover:not(:disabled) {
+  background: rgba(249, 102, 53, 0.08);
+}
+
+.btn-destructive-solid {
+  background: var(--coral);
+  color: #FFFFFF;
+  border-color: var(--coral);
+}
+
+.btn-destructive-solid:hover:not(:disabled) {
+  background: #e25424;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--green-900);
+  border-color: transparent;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--polar);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  min-height: 36px;
+  font-size: 0.8125rem;
+}
+
+/* ============================================================
+   INPUTS & FORMS
+   ============================================================ */
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--rule);
+  background: #FFFFFF;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.15s ease-out;
+}
+
+.input:focus {
+  border-color: var(--emerald-ink);
+  box-shadow: 0 0 0 1px var(--emerald-ink);
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--green-900);
+  margin-bottom: 6px;
+}
+
+/* ============================================================
+   BOARDING-PASS / TICKET-STRIP MOTIF
+   ============================================================ */
+
+.ticket-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: var(--cream);
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green-900);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   PACKPAL INSIGHT (LEFT RULE IN CREAM, SERIF QUOTE)
+   ============================================================ */
+
+.packpal-insight {
+  border-left: 3px solid var(--cream);
+  background: var(--polar);
+  padding: 14px 18px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-top: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ============================================================
+   STATUS DOTS
+   ============================================================ */
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.status-dot-live { background: var(--emerald); }
+.status-dot-fallback { background: var(--amber); }
+.status-dot-offline { background: var(--coral); }
+.status-dot-optional { background: var(--rule); }
+
+/* ============================================================
+   MICRO ANIMATIONS (SUBTLE, 150-350ms, RESPECTS REDUCED-MOTION)
+   ============================================================ */
+
+.page-enter {
+  animation: pageEnter 0.25s ease-out;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   PRINT STYLESHEET
+   ============================================================ */
+
+@media print {
+  body {
+    background: white !important;
+    background-image: none !important;
+  }
+  .btn, nav, header, footer, .modal-backdrop, [role="dialog"] {
+    display: none !important;
+  }
+  .card, .panel {
+    break-inside: avoid;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
 }

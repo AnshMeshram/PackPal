@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Backpack Vector -->
+  <path d="M18 26 C18 16 24 12 32 12 C40 12 46 16 46 26 V52 H18 Z" fill="#0C4137" stroke="#06D6A0" stroke-width="2" />
+  <rect x="22" y="34" width="20" height="15" rx="3" fill="#2BBAA5" stroke="#E6FBF6" stroke-width="1.5" />
+  <path d="M28 12 V8 C28 6 30 5 32 5 C34 5 36 6 36 8 V12" stroke="#06D6A0" stroke-width="2" stroke-linecap="round" />
+  <line x1="14" y1="36" x2="18" y2="36" stroke="#93D3AE" stroke-width="3" stroke-linecap="round" />
+  <line x1="46" y1="36" x2="50" y2="36" stroke="#93D3AE" stroke-width="3" stroke-linecap="round" />
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Passport Vector -->
+  <rect x="14" y="8" width="36" height="48" rx="4" fill="#0C4137" stroke="#2BBAA5" stroke-width="2" />
+  <circle cx="32" cy="28" r="10" stroke="#FAECB6" stroke-width="1.5" stroke-dasharray="3 1.5" />
+  <circle cx="32" cy="28" r="6" stroke="#06D6A0" stroke-width="1.5" />
+  <path d="M26 28 H38 M32 22 V34" stroke="#FAECB6" stroke-width="1" />
+  <line x1="20" y1="44" x2="44" y2="44" stroke="#FAECB6" stroke-width="2" stroke-linecap="round" />
+  <line x1="24" y1="48" x2="40" y2="48" stroke="#93D3AE" stroke-width="1.5" stroke-linecap="round" />
+</svg>

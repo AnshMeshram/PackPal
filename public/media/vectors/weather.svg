@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Weather Vector -->
+  <circle cx="26" cy="24" r="10" fill="#F9A822" />
+  <path d="M22 42 C16 42 12 37 12 32 C12 27 16 23 21 23 C22 17 28 13 35 15 C41 17 44 22 44 26 C48 26 52 30 52 34 C52 38 48 42 44 42 Z" fill="#E6FBF6" stroke="#0C4137" stroke-width="2" />
+  <line x1="24" y1="46" x2="22" y2="52" stroke="#06D6A0" stroke-width="2" stroke-linecap="round" />
+  <line x1="34" y1="46" x2="32" y2="52" stroke="#06D6A0" stroke-width="2" stroke-linecap="round" />
+  <line x1="44" y1="46" x2="42" y2="52" stroke="#06D6A0" stroke-width="2" stroke-linecap="round" />
+</svg>
