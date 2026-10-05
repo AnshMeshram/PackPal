@@ -318,28 +318,33 @@ export default function TripDashboardPage() {
         >
           {/* Top Bar: Trip Style + Edit Button */}
           <div className="flex flex-wrap items-center justify-between gap-2.5 relative z-10">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] text-[10px] font-mono font-semibold bg-black/55 text-white border border-white/20 uppercase tracking-widest">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] text-[10px] font-mono font-semibold bg-black/65 text-white border border-white/25 uppercase tracking-widest shadow-sm">
               {trip.tripType.toUpperCase()} · {trip.durationDays} DAYS
             </span>
             <button
               onClick={() => setShowEditTrip(true)}
-              className="btn btn-secondary text-xs px-3 py-1.5 bg-white text-[var(--green-900)] hover:bg-[var(--polar)] flex items-center gap-1.5 font-bold shadow-sm cursor-pointer"
+              className="text-xs px-3.5 py-1.5 rounded-[6px] bg-white text-[var(--green-900)] flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[var(--polar)] border border-white/80 transition-colors"
+              style={{ backgroundColor: '#FFFFFF', color: '#0C4137' }}
             >
-              <Edit3 size={13} />
+              <Edit3 size={13} className="text-[var(--green-900)]" />
               <span>Edit Trip</span>
             </button>
           </div>
 
           {/* Bottom Area: Controlled dark-green gradient vignette behind text only */}
           <div className="relative z-10 pt-8 pb-1 px-1">
-            <div className="p-3.5 sm:p-4 rounded-[8px] bg-gradient-to-t from-[rgba(6,32,27,0.92)] via-[rgba(6,32,27,0.75)] to-transparent -mx-2 -mb-2 space-y-1.5">
+            <div className="p-3.5 sm:p-4 rounded-[8px] bg-gradient-to-t from-[rgba(6,32,27,0.96)] via-[rgba(6,32,27,0.85)] to-transparent -mx-2 -mb-2 space-y-1.5">
               <h1
-                className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] break-words leading-tight"
-                style={{ fontFamily: 'var(--font-heading)' }}
+                className="text-2xl sm:text-3xl md:text-4xl font-bold !text-white hero-photo-title tracking-wide break-words leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  color: '#FFFFFF',
+                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9)',
+                }}
               >
                 {trip.destination}
               </h1>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/95 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/95 font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                 <span className="inline-flex items-center gap-1.5">
                   <Calendar size={13} className="text-white shrink-0" />
                   <span>{trip.startDate} to {trip.endDate}</span>

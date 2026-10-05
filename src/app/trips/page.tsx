@@ -137,11 +137,18 @@ export default function TripsPage() {
                       <span className="self-start text-[10px] font-mono uppercase tracking-widest text-white px-2 py-0.5 rounded-[4px] bg-black/55 border border-white/20">
                         LATEST TRIP
                       </span>
-                      <div className="p-3.5 rounded-[8px] bg-gradient-to-t from-[rgba(6,32,27,0.92)] via-[rgba(6,32,27,0.7)] to-transparent -mx-2 -mb-2 space-y-1">
-                        <h2 className="text-xl sm:text-2xl font-bold text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] break-words leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
+                      <div className="p-3.5 rounded-[8px] bg-gradient-to-t from-[rgba(6,32,27,0.96)] via-[rgba(6,32,27,0.85)] to-transparent -mx-2 -mb-2 space-y-1">
+                        <h2
+                          className="text-xl sm:text-2xl font-bold !text-white hero-photo-title tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] break-words leading-tight"
+                          style={{
+                            fontFamily: 'var(--font-heading)',
+                            color: '#FFFFFF',
+                            textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9)',
+                          }}
+                        >
                           {firstTrip.name}
                         </h2>
-                        <p className="text-xs text-white/95 font-medium flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                        <p className="text-xs text-white/95 font-medium flex items-center gap-1.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                           <MapPin size={12} className="text-white shrink-0" />
                           <span className="truncate">{firstTrip.destination}</span>
                         </p>
@@ -249,11 +256,18 @@ export default function TripsPage() {
                           backgroundPosition: 'center',
                         }}
                       >
-                        <div className="p-2.5 rounded-[6px] bg-gradient-to-t from-[rgba(6,32,27,0.92)] via-[rgba(6,32,27,0.7)] to-transparent -mx-1.5 -mb-1.5 space-y-0.5">
-                          <h3 className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] truncate" style={{ fontFamily: 'var(--font-heading)' }}>
+                        <div className="p-2.5 rounded-[6px] bg-gradient-to-t from-[rgba(6,32,27,0.96)] via-[rgba(6,32,27,0.85)] to-transparent -mx-1.5 -mb-1.5 space-y-0.5">
+                          <h3
+                            className="font-bold text-base sm:text-lg !text-white hero-photo-title drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] truncate"
+                            style={{
+                              fontFamily: 'var(--font-heading)',
+                              color: '#FFFFFF',
+                              textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9)',
+                            }}
+                          >
                             {trip.name}
                           </h3>
-                          <p className="text-xs text-white/95 font-medium flex items-center gap-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                          <p className="text-xs text-white/95 font-medium flex items-center gap-1 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                             <MapPin size={11} className="text-white shrink-0" />
                             <span className="truncate">{trip.destination}</span>
                           </p>

@@ -265,7 +265,14 @@ export default function Home() {
                   <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-200 block">
                     ACTIVE TRIP BRIEFING
                   </span>
-                  <h3 className="text-2xl font-bold text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]" style={{ fontFamily: 'var(--font-heading)' }}>
+                  <h3
+                    className="text-2xl font-bold !text-white hero-photo-title tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                    style={{
+                      fontFamily: 'var(--font-heading)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9)',
+                    }}
+                  >
                     Goa, India
                   </h3>
                   <p className="text-white/95 text-xs mt-0.5 flex flex-wrap items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
