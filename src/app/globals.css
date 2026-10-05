@@ -273,7 +273,10 @@ body {
 
 .input {
   width: 100%;
-  padding: 10px 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 14px;
+  padding-left: 14px;
   min-height: 44px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--rule);
@@ -283,6 +286,27 @@ body {
   font-family: var(--font-body);
   outline: none;
   transition: border-color 0.15s ease-out;
+}
+
+/* Guard against text and icon collisions across all pages */
+.input.input-has-icon,
+.input-has-icon,
+.input[class*="pl-"],
+.input.pl-9,
+.input.pl-10,
+.input.pl-11,
+.input.pl-12 {
+  padding-left: 44px !important;
+}
+
+.input.input-has-icon-right,
+.input-has-icon-right,
+.input[class*="pr-"],
+.input.pr-9,
+.input.pr-10,
+.input.pr-11,
+.input.pr-12 {
+  padding-right: 44px !important;
 }
 
 .input:focus {

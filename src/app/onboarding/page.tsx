@@ -429,11 +429,12 @@ export default function OnboardingPage() {
                 <div className="space-y-3">
                   <div>
                     <label className="label">Destination City or Region</label>
-                    <div className="relative">
-                      <MapPin size={16} className="absolute left-3.5 top-3 text-[var(--emerald-ink)]" />
+                    <div className="relative flex items-center">
+                      <MapPin size={18} className="absolute left-3.5 text-[var(--emerald-ink)] pointer-events-none shrink-0" />
                       <input
                         type="text"
-                        className="input pl-10 w-full"
+                        className="input input-has-icon w-full"
+                        style={{ paddingLeft: '44px', paddingRight: photoLoading ? '44px' : '14px' }}
                         placeholder="Where are you dreaming of going?"
                         value={destination}
                         onChange={(e) => {
@@ -445,7 +446,7 @@ export default function OnboardingPage() {
                         autoFocus
                       />
                       {photoLoading && (
-                        <div className="absolute right-3.5 top-3">
+                        <div className="absolute right-3.5 flex items-center justify-center pointer-events-none">
                           <Loader2 size={16} className="animate-spin text-[var(--emerald-ink)]" />
                         </div>
                       )}
@@ -624,14 +625,15 @@ export default function OnboardingPage() {
               {currentStep === 5 && (
                 <div>
                   <label className="label">Cabin Baggage Allowance (kg)</label>
-                  <div className="relative">
-                    <Luggage size={16} className="absolute left-3.5 top-3 text-[var(--green-900)]" />
+                  <div className="relative flex items-center">
+                    <Luggage size={18} className="absolute left-3.5 text-[var(--green-900)] pointer-events-none shrink-0" />
                     <input
                       type="number"
                       step={0.5}
                       min={1}
                       max={50}
-                      className="input pl-10"
+                      className="input input-has-icon font-mono font-semibold"
+                      style={{ paddingLeft: '44px' }}
                       value={baggageLimit}
                       onChange={(e) => setBaggageLimit(Number(e.target.value))}
                     />

@@ -518,14 +518,15 @@ export default function PackingPage() {
           <div className="lg:col-span-8 space-y-4">
             {/* Search and Action Bar */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <div className="relative flex-1">
-                <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--ink-muted)]" />
+              <div className="relative flex items-center flex-1">
+                <Search size={16} className="absolute left-3.5 text-[var(--ink-muted)] pointer-events-none shrink-0" />
                 <input
                   type="text"
                   placeholder="Search gear, essentials, or clothing..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input w-full text-xs pl-9 pr-3 py-2"
+                  className="input input-has-icon w-full text-xs"
+                  style={{ paddingLeft: '44px' }}
                 />
               </div>
 

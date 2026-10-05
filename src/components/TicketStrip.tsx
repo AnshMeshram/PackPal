@@ -34,7 +34,7 @@ export function TicketStrip({ code = 'PKP-PASS', badge, fields, className = '' }
         style={{ gridTemplateColumns: `repeat(${fields.length}, minmax(0, 1fr))` }}
       >
         {fields.map((field, idx) => (
-          <div key={idx} className={`px-2 text-center ${idx === 0 ? 'pl-0 text-left' : ''} ${idx === fields.length - 1 ? 'pr-0 text-right' : ''}`}>
+          <div key={idx} className={`px-2 text-center min-w-0 ${idx === 0 ? 'pl-0 text-left' : ''} ${idx === fields.length - 1 ? 'pr-0 text-right' : ''}`}>
             <span className="text-[10px] uppercase tracking-wider text-[var(--ink-muted)] block font-semibold">
               {field.label}
             </span>
