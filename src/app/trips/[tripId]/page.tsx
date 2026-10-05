@@ -9,14 +9,17 @@ import { calculateTotalExpensesPaise, calculateBalances, formatPaiseToRupees } f
 import { computeSettlements } from '@/lib/expenses/settlement';
 import {
   Calendar, Users, Luggage,
-  ArrowRight, Sparkles, Loader2, CloudSun,
-  Edit3, X, Check, ArrowLeft,
+  ArrowRight, Sparkles, Loader2,
+  Edit3, X, Check, ArrowLeft, Printer,
 } from 'lucide-react';
 import { resolveDestination, getDestinationRouteMeta } from '@/lib/destinations';
 import { TripContextBar } from '@/components/TripContextBar';
 import { TicketStrip } from '@/components/TicketStrip';
 import { StatusDot } from '@/components/StatusDot';
 import { PackPalInsight } from '@/components/PackPalInsight';
+import { WeatherBarometer } from '@/components/WeatherBarometer';
+import { FieldNotes } from '@/components/FieldNotes';
+import { ExpeditionDispatchModal } from '@/components/ExpeditionDispatchModal';
 
 export default function TripDashboardPage() {
   const params = useParams();
@@ -43,6 +46,7 @@ export default function TripDashboardPage() {
   const [aiChangeResult, setAiChangeResult] = useState<AITripChange | null>(null);
   const [changeAppliedMsg, setChangeAppliedMsg] = useState<string | null>(null);
   const [changeError, setChangeError] = useState<string | null>(null);
+  const [showDispatchModal, setShowDispatchModal] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const refreshTrip = useCallback(() => {
@@ -332,6 +336,15 @@ export default function TripDashboardPage() {
               </div>
 
               <button
+                onClick={() => setShowDispatchModal(true)}
+                className="text-xs px-3 py-1.5 rounded-[6px] bg-[#0C4137] text-white flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[#06201B] border border-white/40 transition-colors"
+                title="Print or export trip expedition dispatch"
+              >
+                <Printer size={13} />
+                <span>Dispatch</span>
+              </button>
+
+              <button
                 onClick={() => setShowEditTrip(true)}
                 className="text-xs px-3.5 py-1.5 rounded-[6px] bg-white text-[var(--green-900)] flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[var(--polar)] border border-white/80 transition-colors"
                 style={{ backgroundColor: '#FFFFFF', color: '#0C4137' }}
@@ -454,36 +467,12 @@ export default function TripDashboardPage() {
           </div>
         </div>
 
-        {/* Trip Status Briefing Strip */}
-        <div className="rounded-[12px] bg-white border border-[var(--rule)] p-4 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-[6px] bg-[var(--polar)] text-[var(--green-900)] flex items-center justify-center border border-[var(--rule)]">
-              <CloudSun size={18} />
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-[var(--emerald-ink)] block">
-                DESTINATION BRIEFING
-              </span>
-              <p className="text-xs font-medium text-[var(--green-900)]">
-                {weatherLoading ? 'Checking forecast...' : (weather?.condition || 'Mild seasonal conditions expected.')}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              className="btn btn-secondary text-xs px-3 py-1.5"
-              onClick={() => router.push(`/trips/${tripId}/packing`)}
-            >
-              <span>Checklist</span>
-            </button>
-            <button
-              className="btn btn-primary text-xs font-bold px-3.5 py-1.5"
-              onClick={() => router.push(`/trips/${tripId}/itinerary`)}
-            >
-              <span>Itinerary</span>
-            </button>
-          </div>
+        {/* Analog Atmospheric Barometer & Destination Weather Instrument */}
+        <div className="space-y-3">
+          <WeatherBarometer
+            condition={weatherLoading ? 'Calibrating barometer...' : (weather?.condition || 'Mild seasonal conditions expected.')}
+            source={weather?.source}
+          />
         </div>
 
         {/* Split: Packing Readiness | Upcoming Itinerary */}
@@ -667,7 +656,14 @@ export default function TripDashboardPage() {
           </div>
         </div>
 
-        {/* Change My Trip (Natural Language Box) */}
+        {/* Tactile Pencil Marginalia & Field Notes */}
+        <FieldNotes
+          tripId={tripId}
+          notes={trip.fieldNotes || []}
+          onNotesChange={refreshTrip}
+        />
+
+        {/* Modify Journey (Whisper-Quiet Natural Language Input) */}
         <div className="rounded-[12px] bg-white border border-[var(--rule)] p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -675,13 +671,13 @@ export default function TripDashboardPage() {
                 <Sparkles size={15} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[var(--green-900)]">Change my trip</h3>
+                <h3 className="text-sm font-bold text-[var(--green-900)]">Modify your journey</h3>
                 <p className="text-xs text-[var(--ink-muted)]">
-                  Describe any change naturally — e.g. &ldquo;Add 2 extra days&rdquo; or &ldquo;Add scuba diving on day 3&rdquo;
+                  Scribble changes in plain words — e.g. &ldquo;Add 2 extra days&rdquo; or &ldquo;Add scuba diving on day 3&rdquo;
                 </p>
               </div>
             </div>
-            <StatusDot status="live" label="Gemma 2" />
+            <StatusDot status="live" label="Local Travel Engine" />
           </div>
 
           <div className="flex gap-2">
@@ -700,7 +696,7 @@ export default function TripDashboardPage() {
               className="btn btn-primary text-xs px-4 py-2 font-bold flex items-center gap-1.5"
             >
               {analyzingChange ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-              <span>Analyze</span>
+              <span>Update Journey</span>
             </button>
           </div>
 
@@ -842,6 +838,13 @@ export default function TripDashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Post-Trip Expedition Dispatch Scrapbook Modal */}
+      <ExpeditionDispatchModal
+        trip={trip}
+        isOpen={showDispatchModal}
+        onClose={() => setShowDispatchModal(false)}
+      />
     </div>
   );
 }

@@ -155,6 +155,7 @@ export type Trip = {
   packingItems: PackingItem[];
   expenses: Expense[];
   weather?: WeatherSummary;
+  fieldNotes?: string[];
   createdAt: string;
   updatedAt: string;
 };

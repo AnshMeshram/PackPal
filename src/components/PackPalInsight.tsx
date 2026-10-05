@@ -14,7 +14,7 @@ interface PackPalInsightProps {
 
 export function PackPalInsight({
   title = 'PackPal Travel Insight',
-  source = 'Gemma 2 · Weather-Aware',
+  source = 'Destination Intelligence',
   quote,
   actionLabel,
   dismissLabel = 'Dismiss',

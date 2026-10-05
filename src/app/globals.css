@@ -456,7 +456,7 @@ body {
     background: white !important;
     background-image: none !important;
   }
-  .btn, nav, header, footer, .modal-backdrop, [role="dialog"] {
+  nav, header, footer, .modal-backdrop, .print\:hidden {
     display: none !important;
   }
   .card, .panel {

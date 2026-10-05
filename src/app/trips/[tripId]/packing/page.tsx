@@ -14,7 +14,9 @@ import {
 import { TripContextBar } from '@/components/TripContextBar';
 import { StatusDot } from '@/components/StatusDot';
 import { LuggageScaleGauge } from '@/components/LuggageScaleGauge';
+import { LuggageBaggageTag } from '@/components/LuggageBaggageTag';
 import { PackPalIcon } from '@/components/PackPalIcon';
+import { getDestinationRouteMeta } from '@/lib/destinations';
 import { loadCustomSettings } from '@/lib/storage/settings';
 
 const DEFAULT_CATEGORIES: { id: string; label: string }[] = [
@@ -121,6 +123,7 @@ export default function PackingPage() {
   }
 
   const items = trip.packingItems || [];
+  const routeMeta = getDestinationRouteMeta(trip.destination);
   const packedWeight = calculateTotalPackedWeight(items);
   const estimatedWeight = calculateTotalEstimatedWeight(items);
   const baggageLimit = trip.luggage?.maxWeightKg || trip.baggageLimitKg || 7;
@@ -490,7 +493,9 @@ export default function PackingPage() {
           <div className="flex items-center gap-2 text-xs text-[var(--emerald-ink)] px-1 font-mono">
             <StatusDot status={source === 'ai' ? 'live' : 'fallback'} />
             <span>
-              {source === 'ai' ? 'Checklist generated locally with Gemma 2 via Ollama' : 'Checklist generated via PackPal Travel Rules'}
+              {source === 'ai'
+                ? `Checklist prepared on-device based on ${trip.destination} weather & cabin limits`
+                : 'Checklist tailored via offline travel rules'}
             </span>
           </div>
         )}
@@ -798,6 +803,22 @@ export default function PackingPage() {
                   )}
                 </div>
               )}
+
+              {/* Physical Airline Baggage Claim Tag */}
+              <div className="pt-4 border-t border-[var(--rule)]">
+                <span className="text-[10px] font-mono uppercase font-bold text-[var(--ink-muted)] block text-center mb-2 tracking-[0.14em]">
+                  PHYSICAL BAGGAGE CLAIM TAG
+                </span>
+                <LuggageBaggageTag
+                  destination={trip.destination}
+                  route={routeMeta.route}
+                  destinationCode={routeMeta.code}
+                  passengerName={trip.members[0]?.name || 'TRAVELER'}
+                  currentWeightKg={packedWeight}
+                  maxWeightKg={baggageLimit}
+                  bagType={bagName}
+                />
+              </div>
             </div>
 
             {/* Ask PackPal About Your Bag */}
