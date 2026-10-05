@@ -96,7 +96,7 @@ export default function TripsPage() {
             description="Create your first trip with weather-aware packing lists, day-by-day itineraries, and shared companion expenses."
             ctaText="Plan a Trip"
             onCta={() => router.push('/onboarding')}
-            icon="suitcase"
+            icon="backpack"
           />
         ) : (
           <div className="space-y-6">

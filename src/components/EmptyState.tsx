@@ -8,7 +8,7 @@ interface EmptyStateProps {
   description: string;
   ctaText?: string;
   onCta?: () => void;
-  icon?: 'suitcase' | 'compass' | 'map' | 'friends';
+  icon?: 'suitcase' | 'backpack' | 'compass' | 'map' | 'friends';
   className?: string;
 }
 
@@ -17,18 +17,21 @@ export function EmptyState({
   description,
   ctaText,
   onCta,
-  icon = 'suitcase',
+  icon = 'backpack',
   className = '',
 }: EmptyStateProps) {
   const getAsset = () => {
     switch (icon) {
+      case 'backpack':
+        return VECTOR_ASSETS.packpalIcon;
       case 'map':
         return VECTOR_ASSETS.map;
       case 'friends':
         return VECTOR_ASSETS.friends;
       case 'suitcase':
-      default:
         return VECTOR_ASSETS.suitcase;
+      default:
+        return VECTOR_ASSETS.packpalIcon;
     }
   };
 

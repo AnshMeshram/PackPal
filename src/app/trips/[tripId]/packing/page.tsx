@@ -14,6 +14,7 @@ import {
 import { TripContextBar } from '@/components/TripContextBar';
 import { StatusDot } from '@/components/StatusDot';
 import { LuggageScaleGauge } from '@/components/LuggageScaleGauge';
+import { PackPalIcon } from '@/components/PackPalIcon';
 import { loadCustomSettings } from '@/lib/storage/settings';
 
 const DEFAULT_CATEGORIES: { id: string; label: string }[] = [
@@ -586,7 +587,7 @@ export default function PackingPage() {
             <div className="rounded-[12px] bg-white border border-[var(--rule)] overflow-hidden divide-y divide-[var(--rule)]">
               {filteredItems.length === 0 ? (
                 <div className="p-12 text-center space-y-2">
-                  <Luggage size={32} className="mx-auto text-[var(--ink-muted)]/50 mb-1" />
+                  <PackPalIcon size={46} className="mx-auto mb-2 opacity-90" />
                   <h3 className="text-base font-bold text-[var(--green-900)]" style={{ fontFamily: 'var(--font-heading)' }}>
                     No items in this view
                   </h3>
