@@ -12,7 +12,7 @@ import {
   ArrowRight, Sparkles, Loader2, CloudSun,
   Edit3, X, Check, ArrowLeft,
 } from 'lucide-react';
-import { resolveDestination } from '@/lib/destinations';
+import { resolveDestination, getDestinationRouteMeta } from '@/lib/destinations';
 import { TripContextBar } from '@/components/TripContextBar';
 import { TicketStrip } from '@/components/TicketStrip';
 import { StatusDot } from '@/components/StatusDot';
@@ -293,6 +293,7 @@ export default function TripDashboardPage() {
   };
 
   const destProfile = resolveDestination(trip.destination);
+  const routeMeta = getDestinationRouteMeta(trip.destination);
   const coverUrl = trip.coverImage || destProfile.coverImage;
 
   return (
@@ -309,31 +310,59 @@ export default function TripDashboardPage() {
       <div className="flex-1 max-w-5xl mx-auto w-full px-6 py-6 space-y-6">
         {/* Destination Editorial Cover Banner */}
         <div
-          className="relative rounded-[12px] overflow-hidden min-h-[220px] sm:min-h-[260px] flex flex-col justify-between p-5 sm:p-6 border border-[var(--rule)] shadow-sm"
+          className="relative rounded-[12px] overflow-hidden min-h-[240px] sm:min-h-[280px] flex flex-col justify-between p-5 sm:p-6 border border-[var(--rule)] shadow-sm"
           style={{
             backgroundImage: `linear-gradient(to top, rgba(6, 32, 27, 0.96) 0%, rgba(12, 65, 55, 0.6) 45%, rgba(0, 0, 0, 0.25) 100%), url(${coverUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         >
-          {/* Top Bar: Trip Style + Edit Button */}
-          <div className="flex flex-wrap items-center justify-between gap-2.5 relative z-10">
+          {/* Top Bar: Trip Style + Passport Entry Stamp + Edit Button */}
+          <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] text-[10px] font-mono font-semibold bg-black/65 text-white border border-white/25 uppercase tracking-widest shadow-sm">
               {trip.tripType.toUpperCase()} · {trip.durationDays} DAYS
             </span>
-            <button
-              onClick={() => setShowEditTrip(true)}
-              className="text-xs px-3.5 py-1.5 rounded-[6px] bg-white text-[var(--green-900)] flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[var(--polar)] border border-white/80 transition-colors"
-              style={{ backgroundColor: '#FFFFFF', color: '#0C4137' }}
-            >
-              <Edit3 size={13} className="text-[var(--green-900)]" />
-              <span>Edit Trip</span>
-            </button>
+
+            <div className="flex items-center gap-3">
+              {/* Vintage Passport Arrival Stamp */}
+              <div className="passport-stamp text-center shrink-0 hidden sm:inline-flex">
+                <span className="text-[7.5px] font-mono text-white/70 tracking-widest block">OFFICIAL ENTRY</span>
+                <span className="text-[11px] font-mono font-bold text-white tracking-[0.16em]">{routeMeta.code} · ARRIVAL</span>
+                <span className="text-[7.5px] font-mono text-white/70 tracking-wider block">{trip.startDate}</span>
+              </div>
+
+              <button
+                onClick={() => setShowEditTrip(true)}
+                className="text-xs px-3.5 py-1.5 rounded-[6px] bg-white text-[var(--green-900)] flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[var(--polar)] border border-white/80 transition-colors"
+                style={{ backgroundColor: '#FFFFFF', color: '#0C4137' }}
+              >
+                <Edit3 size={13} className="text-[var(--green-900)]" />
+                <span>Edit Trip</span>
+              </button>
+            </div>
           </div>
 
           {/* Bottom Area: Controlled dark-green gradient vignette behind text only */}
-          <div className="relative z-10 pt-8 pb-1 px-1">
+          <div className="relative z-10 pt-6 pb-1 px-1">
             <div className="p-3.5 sm:p-4 rounded-[8px] bg-gradient-to-t from-[rgba(6,32,27,0.96)] via-[rgba(6,32,27,0.85)] to-transparent -mx-2 -mb-2 space-y-1.5">
+              {/* Monospace IATA Waypoint Route + Elevation */}
+              <div className="flex items-center gap-2 text-[10px] font-mono font-bold tracking-[0.18em] text-[var(--emerald)] uppercase drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+                <span>{routeMeta.route}</span>
+                <span className="text-white/40">•</span>
+                <span>ELEV {routeMeta.elevation}</span>
+                <span className="text-white/40 hidden md:inline">•</span>
+                <span className="hidden md:inline text-white/70">{routeMeta.coordinates}</span>
+              </div>
+
+              {/* Italic Serif Pull-Quote Mood Lead-In */}
+              <p
+                className="italic text-xs sm:text-sm text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]"
+                style={{ fontFamily: 'var(--font-heading)' }}
+              >
+                &ldquo;{routeMeta.mood}&rdquo;
+              </p>
+
+              {/* Destination Hero Heading */}
               <h1
                 className="text-2xl sm:text-3xl md:text-4xl font-bold !text-white hero-photo-title tracking-wide break-words leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
                 style={{
@@ -344,7 +373,8 @@ export default function TripDashboardPage() {
               >
                 {trip.destination}
               </h1>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/95 font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/95 font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] pt-0.5">
                 <span className="inline-flex items-center gap-1.5">
                   <Calendar size={13} className="text-white shrink-0" />
                   <span>{trip.startDate} to {trip.endDate}</span>
@@ -366,7 +396,8 @@ export default function TripDashboardPage() {
 
         {/* Boarding-Pass Ticket Strip */}
         <TicketStrip
-          code={`PKP-${trip.destination.substring(0, 3).toUpperCase()}`}
+          code={`PKP-${routeMeta.code}`}
+          route={routeMeta.route}
           badge={<StatusDot status={weather?.source === 'live' ? 'live' : 'fallback'} label={weather?.source === 'live' ? 'Live via SerpApi' : 'Seasonal estimate'} />}
           fields={[
             { label: 'PACKING', value: `${packProgress}% READY`, subValue: `${packedCount}/${totalItems} items` },

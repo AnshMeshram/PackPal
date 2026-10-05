@@ -143,3 +143,121 @@ export function resolveDestination(destinationStr?: string): DestinationProfile 
     name: destinationStr,
   };
 }
+
+export interface DestinationRouteMeta {
+  code: string;
+  origin: string;
+  destination: string;
+  route: string;
+  mood: string;
+  coordinates: string;
+  elevation: string;
+}
+
+const ROUTE_LOOKUP: Record<string, Partial<DestinationRouteMeta>> = {
+  goa: {
+    code: 'GOI',
+    origin: 'BOM',
+    destination: 'GOI',
+    route: 'BOM ➔ GOI',
+    mood: 'Coastal breeze, palm groves & emerald tides',
+    coordinates: '15.2993° N, 74.1240° E',
+    elevation: '8 m',
+  },
+  paris: {
+    code: 'CDG',
+    origin: 'LHR',
+    destination: 'CDG',
+    route: 'LHR ➔ CDG',
+    mood: 'Cobblestones, river Seine & boulevard afternoons',
+    coordinates: '48.8566° N, 2.3522° E',
+    elevation: '35 m',
+  },
+  tokyo: {
+    code: 'HND',
+    origin: 'SFO',
+    destination: 'HND',
+    route: 'SFO ➔ HND',
+    mood: 'Neon alleys, shinkansen rails & quiet shrines',
+    coordinates: '35.6762° N, 139.6503° E',
+    elevation: '40 m',
+  },
+  bali: {
+    code: 'DPS',
+    origin: 'SIN',
+    destination: 'DPS',
+    route: 'SIN ➔ DPS',
+    mood: 'Volcanic peaks, terraced paddies & ocean surf',
+    coordinates: '8.3405° S, 115.0920° E',
+    elevation: '12 m',
+  },
+  manali: {
+    code: 'KUU',
+    origin: 'DEL',
+    destination: 'KUU',
+    route: 'DEL ➔ KUU',
+    mood: 'Alpine pine forests, river valleys & crisp mountain air',
+    coordinates: '32.2396° N, 77.1887° E',
+    elevation: '2,050 m',
+  },
+  ladakh: {
+    code: 'IXL',
+    origin: 'DEL',
+    destination: 'IXL',
+    route: 'DEL ➔ IXL',
+    mood: 'High Himalayan passes, monasteries & azure skies',
+    coordinates: '34.1526° N, 77.5771° E',
+    elevation: '3,500 m',
+  },
+  london: {
+    code: 'LHR',
+    origin: 'JFK',
+    destination: 'LHR',
+    route: 'JFK ➔ LHR',
+    mood: 'Thames mist, heritage brick & rain-washed streets',
+    coordinates: '51.5074° N, 0.1278° W',
+    elevation: '11 m',
+  },
+};
+
+export function getDestinationRouteMeta(destinationStr?: string): DestinationRouteMeta {
+  if (!destinationStr) {
+    return {
+      code: 'PKP',
+      origin: 'EXP',
+      destination: 'PKP',
+      route: 'ORIGIN ➔ DEST',
+      mood: 'Curated journey, open roads & expedition log',
+      coordinates: '28.6139° N, 77.2090° E',
+      elevation: '216 m',
+    };
+  }
+
+  const normalized = destinationStr.toLowerCase().trim();
+  for (const [key, meta] of Object.entries(ROUTE_LOOKUP)) {
+    if (normalized.includes(key)) {
+      return {
+        code: meta.code || 'PKP',
+        origin: meta.origin || 'DEL',
+        destination: meta.destination || meta.code || 'PKP',
+        route: meta.route || `DEL ➔ ${meta.code || 'PKP'}`,
+        mood: meta.mood || 'Curated journey & expedition log',
+        coordinates: meta.coordinates || '28.6139° N, 77.2090° E',
+        elevation: meta.elevation || 'Sea Level',
+      };
+    }
+  }
+
+  // Generic fallback code from string
+  const cleanCode = destinationStr.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() || 'PKP';
+  return {
+    code: cleanCode,
+    origin: 'DEL',
+    destination: cleanCode,
+    route: `DEL ➔ ${cleanCode}`,
+    mood: `Curated journey, open horizons & expedition log`,
+    coordinates: '28.6139° N, 77.2090° E',
+    elevation: 'Terrain Varied',
+  };
+}
+

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { TripContextBar } from '@/components/TripContextBar';
 import { StatusDot } from '@/components/StatusDot';
+import { LuggageScaleGauge } from '@/components/LuggageScaleGauge';
 import { loadCustomSettings } from '@/lib/storage/settings';
 
 const DEFAULT_CATEGORIES: { id: string; label: string }[] = [
@@ -47,6 +48,7 @@ export default function PackingPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>('all');
   const [optimizeResults, setOptimizeResults] = useState<{ itemId: string; decision: string; reason: string }[]>([]);
+  const [bouncingItemId, setBouncingItemId] = useState<string | null>(null);
 
   // Luggage Setup Modal state
   const [showLuggageModal, setShowLuggageModal] = useState(false);
@@ -121,8 +123,6 @@ export default function PackingPage() {
   const packedWeight = calculateTotalPackedWeight(items);
   const estimatedWeight = calculateTotalEstimatedWeight(items);
   const baggageLimit = trip.luggage?.maxWeightKg || trip.baggageLimitKg || 7;
-  const overLimit = packedWeight > baggageLimit;
-  const availableWeight = Math.max(0, baggageLimit - packedWeight);
   const packedCount = items.filter((i) => i.packed).length;
   const progress = items.length > 0 ? Math.round((packedCount / items.length) * 100) : 0;
   const essentialCount = items.filter((i) => i.essential).length;
@@ -141,6 +141,10 @@ export default function PackingPage() {
   };
 
   const togglePacked = (id: string) => {
+    setBouncingItemId(id);
+    setTimeout(() => {
+      setBouncingItemId((curr) => (curr === id ? null : curr));
+    }, 280);
     const updated = items.map((i) => (i.id === id ? { ...i, packed: !i.packed } : i));
     saveItems(updated);
   };
@@ -407,14 +411,14 @@ export default function PackingPage() {
       <header className="px-6 py-6 border-b border-[var(--rule)] bg-[var(--paper)]">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold tracking-widest text-[var(--emerald-ink)] uppercase font-mono block mb-1">
+            <span className="text-[10px] font-bold tracking-[0.18em] text-[var(--emerald-ink)] uppercase font-mono block mb-1">
               SUITCASE READINESS · {trip.destination.toUpperCase()}
             </span>
             <h1 className="text-3xl sm:text-4xl font-bold text-[var(--green-900)] leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
               Pack for {trip.destination}
             </h1>
-            <p className="text-xs text-[var(--ink-muted)] mt-1">
-              Everything you need, nothing you don&apos;t.
+            <p className="text-sm italic text-[var(--ink-muted)] mt-1" style={{ fontFamily: 'var(--font-heading)' }}>
+              &ldquo;Everything you need, nothing you don&apos;t.&rdquo;
             </p>
 
             {/* 3 Inline Stats */}
@@ -607,9 +611,11 @@ export default function PackingPage() {
                     {/* Left: Check + Title + Badges */}
                     <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                       <button
-                        className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-colors shrink-0 cursor-pointer ${
+                        className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all shrink-0 cursor-pointer ${
+                          bouncingItemId === item.id ? 'stow-bounce' : ''
+                        } ${
                           item.packed
-                            ? 'bg-[var(--emerald-ink)] border-[var(--emerald-ink)] text-white'
+                            ? 'bg-[var(--emerald-ink)] border-[var(--emerald-ink)] text-white shadow-sm'
                             : 'border-[var(--rule)] bg-white hover:border-[var(--green-900)]'
                         }`}
                         onClick={() => togglePacked(item.id)}
@@ -713,37 +719,12 @@ export default function PackingPage() {
                 </button>
               </div>
 
-              {/* Weight Reading */}
-              <div className="space-y-2">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-2xl font-bold font-mono text-[var(--green-900)]">
-                    {packedWeight.toFixed(1)} kg
-                  </span>
-                  <span className="text-xs text-[var(--ink-muted)] font-mono">
-                    / {baggageLimit} kg limit
-                  </span>
-                </div>
-
-                {/* Progress bar */}
-                <div className="h-2.5 bg-[var(--polar)] rounded-full overflow-hidden border border-[var(--rule)]">
-                  <div
-                    className={`h-full rounded-full transition-all duration-300 ${
-                      overLimit
-                        ? 'bg-[var(--coral)]'
-                        : packedWeight / baggageLimit > 0.85
-                        ? 'bg-[var(--amber)]'
-                        : 'bg-[var(--emerald)]'
-                    }`}
-                    style={{ width: `${Math.min(100, (packedWeight / baggageLimit) * 100)}%` }}
-                  />
-                </div>
-
-                <div className="flex justify-between text-[11px] font-mono">
-                  <span className={overLimit ? 'text-[var(--coral)] font-bold' : 'text-[var(--ink-muted)]'}>
-                    {overLimit ? `Over by ${(packedWeight - baggageLimit).toFixed(1)} kg` : `Available: ${availableWeight.toFixed(1)} kg`}
-                  </span>
-                  <span className="text-[var(--ink-muted)]">{progress}% packed</span>
-                </div>
+              {/* Analog Luggage Scale Gauge Metaphor */}
+              <div className="py-2 flex justify-center">
+                <LuggageScaleGauge
+                  currentWeightKg={packedWeight}
+                  maxWeightKg={baggageLimit}
+                />
               </div>
 
               {/* Bag Dimensions Strip */}

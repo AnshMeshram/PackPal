@@ -153,14 +153,14 @@ export default function ExpensesPage() {
       <header className="px-6 py-6 border-b border-[var(--rule)] bg-[var(--paper)]">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold tracking-widest text-[var(--emerald-ink)] uppercase font-mono block mb-1">
+            <span className="text-[10px] font-bold tracking-[0.18em] text-[var(--emerald-ink)] uppercase font-mono block mb-1">
               TRIPSPLIT · EXACT PAISE ENGINE
             </span>
             <h1 className="text-3xl font-bold text-[var(--green-900)] leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
               Who owes what
             </h1>
-            <p className="text-xs text-[var(--ink-muted)] mt-1">
-              Natural language bill entry, individual shares, and greedy debt minimization settlements.
+            <p className="text-sm italic text-[var(--ink-muted)] mt-1" style={{ fontFamily: 'var(--font-heading)' }}>
+              &ldquo;Fair shares, clean ledgers, and zero debt ambiguity.&rdquo;
             </p>
           </div>
 
@@ -400,14 +400,20 @@ export default function ExpensesPage() {
 
           {/* Settlement Plan */}
           <div className="rounded-[12px] bg-white border border-[var(--rule)] p-5 space-y-3">
-            <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-[var(--emerald-ink)] block">
+            <span className="text-[10px] uppercase font-mono tracking-[0.16em] font-bold text-[var(--emerald-ink)] block">
               MINIMIZED SETTLEMENT PLAN
             </span>
             <div className="divide-y divide-[var(--rule)]">
               {settlements.length === 0 ? (
-                <p className="text-xs text-[var(--ink-muted)] py-3">
-                  All balances are settled. No transfers required.
-                </p>
+                <div className="py-6 flex flex-col items-center justify-center text-center space-y-2.5">
+                  <div className="settled-stamp">
+                    <span>✓</span>
+                    <span>ALL BALANCES SETTLED · ZERO DEBT</span>
+                  </div>
+                  <p className="text-xs text-[var(--ink-muted)] max-w-xs">
+                    All expenses and debts are completely squared away. No peer-to-peer transfers required.
+                  </p>
+                </div>
               ) : (
                 settlements.map((s, idx) => (
                   <div key={idx} className="py-2.5 flex items-center justify-between gap-2 text-xs">
