@@ -8,9 +8,12 @@ import { calculateBalances, calculateTotalExpensesPaise, formatPaiseToRupees, ca
 import { computeSettlements } from '@/lib/expenses/settlement';
 import {
   Plus, Trash2, Loader2,
-  MessageSquare, Check, X, AlertTriangle, Sparkles,
+  MessageSquare, Check, X, AlertTriangle, Receipt,
 } from 'lucide-react';
+
 import { TripContextBar } from '@/components/TripContextBar';
+import { ExpenseBillfold } from '@/components/ExpenseBillfold';
+
 
 export default function ExpensesPage() {
   const params = useParams();
@@ -234,7 +237,7 @@ export default function ExpensesPage() {
         {showNL && (
           <div className="rounded-[12px] bg-white border border-[var(--rule)] p-5 space-y-3">
             <div className="flex items-center gap-2 text-xs font-bold text-[var(--green-900)]">
-              <Sparkles size={14} className="text-[var(--emerald-ink)]" />
+              <Receipt size={14} className="text-[var(--emerald-ink)]" />
               <span>What was paid?</span>
             </div>
             <textarea
@@ -256,7 +259,7 @@ export default function ExpensesPage() {
                 onClick={handleNLSubmit}
                 disabled={nlLoading || !nlText.trim()}
               >
-                {nlLoading ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
+                {nlLoading ? <Loader2 size={13} className="animate-spin" /> : <Receipt size={13} />}
                 <span>{nlLoading ? 'Reading...' : 'Read this expense'}</span>
               </button>
             </div>
@@ -267,9 +270,10 @@ export default function ExpensesPage() {
         {nlResult && (
           <div className="rounded-[12px] bg-white border border-[var(--emerald-ink)]/40 p-5 space-y-3">
             <div className="flex items-center gap-2 text-xs font-bold text-[var(--green-900)]">
-              <Sparkles size={14} className="text-[var(--emerald-ink)]" />
+              <Receipt size={14} className="text-[var(--emerald-ink)]" />
               <span>I understood this as…</span>
             </div>
+
 
             <div className="p-3.5 rounded-[6px] bg-[var(--paper)] border border-[var(--rule)] space-y-1.5 text-xs">
               <p className="text-sm font-bold text-[var(--green-900)]">{nlResult.description}</p>
@@ -432,11 +436,24 @@ export default function ExpensesPage() {
           </div>
         </div>
 
+        {/* Anti-AI Physical Leather Billfold & Thermal Receipt Tape */}
+        <ExpenseBillfold
+          expenses={trip.expenses}
+          totalExpensesPaise={totalExpenses}
+          settled={settlements.length === 0 && trip.expenses.length > 0}
+          onDeleteExpense={deleteExpense}
+          onAddClick={() => {
+            setShowManual(true);
+            setShowNL(false);
+          }}
+        />
+
         {/* Journal Entries List */}
         <div className="rounded-[12px] bg-white border border-[var(--rule)] p-5 space-y-3">
           <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-[var(--emerald-ink)] block">
             EXPENSE JOURNAL LINES ({trip.expenses?.length || 0})
           </span>
+
 
           <div className="divide-y divide-[var(--rule)]">
             {(trip.expenses || []).length === 0 ? (

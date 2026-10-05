@@ -9,15 +9,17 @@ import {
   Plus, Trash2, Check, X, Loader2,
   ChevronDown, ChevronUp, Sparkles, Weight,
   Volume2, VolumeX, Printer, Search, Luggage,
-  Settings, Edit3, Send, CheckCircle2, AlertCircle,
+  Settings, Edit3, Send, CheckCircle2, AlertCircle, Compass,
 } from 'lucide-react';
 import { TripContextBar } from '@/components/TripContextBar';
 import { StatusDot } from '@/components/StatusDot';
 import { LuggageScaleGauge } from '@/components/LuggageScaleGauge';
 import { LuggageBaggageTag } from '@/components/LuggageBaggageTag';
+import { RucksackBlueprint } from '@/components/RucksackBlueprint';
 import { PackPalIcon } from '@/components/PackPalIcon';
 import { getDestinationRouteMeta } from '@/lib/destinations';
 import { loadCustomSettings } from '@/lib/storage/settings';
+
 
 const DEFAULT_CATEGORIES: { id: string; label: string }[] = [
   { id: 'clothing', label: 'Clothing' },
@@ -50,7 +52,9 @@ export default function PackingPage() {
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>('all');
+  const [packingTab, setPackingTab] = useState<'checklist' | 'blueprint'>('checklist');
   const [optimizeResults, setOptimizeResults] = useState<{ itemId: string; decision: string; reason: string }[]>([]);
+
   const [bouncingItemId, setBouncingItemId] = useState<string | null>(null);
 
   // Luggage Setup Modal state
@@ -526,10 +530,53 @@ export default function PackingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Items Area (8 cols) */}
           <div className="lg:col-span-8 space-y-4">
-            {/* Search and Action Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <div className="relative flex items-center flex-1">
-                <Search size={16} className="absolute left-3.5 text-[var(--ink-muted)] pointer-events-none shrink-0" />
+            {/* View Switcher: Checklist vs Rucksack Blueprint */}
+            <div className="flex flex-wrap items-center justify-between gap-2 p-1.5 rounded-[10px] bg-white border border-[var(--rule)]">
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setPackingTab('checklist')}
+                  className={`px-3 py-1.5 rounded-[6px] text-xs font-mono font-bold transition-colors cursor-pointer ${
+                    packingTab === 'checklist'
+                      ? 'bg-[var(--green-900)] text-white shadow-xs'
+                      : 'text-[var(--ink-muted)] hover:text-[var(--green-900)]'
+                  }`}
+                >
+                  PACKING CHECKLIST ({items.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPackingTab('blueprint')}
+                  className={`px-3 py-1.5 rounded-[6px] text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                    packingTab === 'blueprint'
+                      ? 'bg-[#0B2545] text-white shadow-xs'
+                      : 'text-[var(--ink-muted)] hover:text-[var(--green-900)]'
+                  }`}
+                >
+                  <Compass size={13} />
+                  <span>RUCKSACK BLUEPRINT (4 ZONES)</span>
+                </button>
+              </div>
+
+              <span className="text-[10px] font-mono text-[var(--ink-muted)] pr-2 hidden sm:inline">
+                {packingTab === 'blueprint' ? 'ISO-11228 LOAD BALANCE SPEC' : `${packedCount}/${items.length} PACKED`}
+              </span>
+
+            </div>
+
+            {packingTab === 'blueprint' ? (
+              <RucksackBlueprint
+                items={items}
+                bagName={bagName}
+                maxWeightKg={bagMaxWeight}
+              />
+            ) : (
+              <>
+                {/* Search and Action Bar */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <div className="relative flex items-center flex-1">
+                    <Search size={16} className="absolute left-3.5 text-[var(--ink-muted)] pointer-events-none shrink-0" />
+
                 <input
                   type="text"
                   placeholder="Search gear, essentials, or clothing..."
@@ -698,7 +745,10 @@ export default function PackingPage() {
                 ))
               )}
             </div>
-          </div>
+          </>
+        )}
+      </div>
+
 
           {/* Right Sidebar: Luggage Panel & Optimizer (4 cols) */}
           <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-20">

@@ -9,15 +9,20 @@ import { calculateTotalExpensesPaise, calculateBalances, formatPaiseToRupees } f
 import { computeSettlements } from '@/lib/expenses/settlement';
 import {
   Calendar, Users, Luggage,
-  ArrowRight, Sparkles, Loader2,
+  ArrowRight, Loader2,
   Edit3, X, Check, ArrowLeft, Printer,
+  Mail, ShieldAlert, PenTool,
 } from 'lucide-react';
+
 import { resolveDestination, getDestinationRouteMeta } from '@/lib/destinations';
 import { TripContextBar } from '@/components/TripContextBar';
 import { TicketStrip } from '@/components/TicketStrip';
 import { StatusDot } from '@/components/StatusDot';
 import { PackPalInsight } from '@/components/PackPalInsight';
 import { WeatherBarometer } from '@/components/WeatherBarometer';
+import { AltimeterCompass } from '@/components/AltimeterCompass';
+import { OfflineSOSCard } from '@/components/OfflineSOSCard';
+import { VintagePostcardModal } from '@/components/VintagePostcardModal';
 import { FieldNotes } from '@/components/FieldNotes';
 import { ExpeditionDispatchModal } from '@/components/ExpeditionDispatchModal';
 
@@ -28,6 +33,7 @@ export default function TripDashboardPage() {
   const [trip, setTrip] = useState<Trip | null>(null);
 
   // Edit Trip Modal state
+
   const [showEditTrip, setShowEditTrip] = useState(false);
   const [editName, setEditName] = useState('');
   const [editDest, setEditDest] = useState('');
@@ -47,6 +53,8 @@ export default function TripDashboardPage() {
   const [changeAppliedMsg, setChangeAppliedMsg] = useState<string | null>(null);
   const [changeError, setChangeError] = useState<string | null>(null);
   const [showDispatchModal, setShowDispatchModal] = useState(false);
+  const [showSOSModal, setShowSOSModal] = useState(false);
+  const [showPostcardModal, setShowPostcardModal] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const refreshTrip = useCallback(() => {
@@ -336,6 +344,24 @@ export default function TripDashboardPage() {
               </div>
 
               <button
+                onClick={() => setShowPostcardModal(true)}
+                className="text-xs px-3 py-1.5 rounded-[6px] bg-[#1B4332] text-white flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[#06201B] border border-white/40 transition-colors"
+                title="Write and export vintage airmail postcard for a friend"
+              >
+                <Mail size={13} />
+                <span>Postcard</span>
+              </button>
+
+              <button
+                onClick={() => setShowSOSModal(true)}
+                className="text-xs px-3 py-1.5 rounded-[6px] bg-[#8B261D] text-white flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[#641E16] border border-white/40 transition-colors"
+                title="View zero-signal offline survival and medical SOS card"
+              >
+                <ShieldAlert size={13} />
+                <span>SOS Card</span>
+              </button>
+
+              <button
                 onClick={() => setShowDispatchModal(true)}
                 className="text-xs px-3 py-1.5 rounded-[6px] bg-[#0C4137] text-white flex items-center gap-1.5 font-bold shadow-md cursor-pointer hover:bg-[#06201B] border border-white/40 transition-colors"
                 title="Print or export trip expedition dispatch"
@@ -354,6 +380,7 @@ export default function TripDashboardPage() {
               </button>
             </div>
           </div>
+
 
           {/* Bottom Area: Controlled dark-green gradient vignette behind text only */}
           <div className="relative z-10 pt-6 pb-1 px-1">
@@ -467,13 +494,33 @@ export default function TripDashboardPage() {
           </div>
         </div>
 
-        {/* Analog Atmospheric Barometer & Destination Weather Instrument */}
+        {/* Expedition Instruments: Analog Weather Barometer & Altimeter Sighting Compass */}
         <div className="space-y-3">
-          <WeatherBarometer
-            condition={weatherLoading ? 'Calibrating barometer...' : (weather?.condition || 'Mild seasonal conditions expected.')}
-            source={weather?.source}
-          />
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-[var(--green-900)] uppercase font-mono tracking-wider">
+              EXPEDITION FIELD INSTRUMENTS
+            </span>
+            <span className="text-[10px] font-mono text-[var(--emerald-ink)] font-bold">
+              ANEROID SENSORS & NAVIGATION SPEC 1928
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+            <WeatherBarometer
+              condition={weatherLoading ? 'Calibrating barometer...' : (weather?.condition || 'Mild seasonal conditions expected.')}
+              source={weather?.source}
+            />
+            <AltimeterCompass
+              headingDeg={348}
+              cardinal="NNW"
+              elevationMeters={parseInt(routeMeta.elevation?.replace(/[^0-9]/g, '') || '2050', 10) || 2050}
+              coordinates={routeMeta.coordinates}
+              locationName={trip.destination}
+              pressureHpa={1018}
+            />
+          </div>
         </div>
+
 
         {/* Split: Packing Readiness | Upcoming Itinerary */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -668,7 +715,7 @@ export default function TripDashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-[4px] bg-[var(--polar)] text-[var(--green-900)] flex items-center justify-center">
-                <Sparkles size={15} />
+                <PenTool size={15} />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-[var(--green-900)]">Modify your journey</h3>
@@ -695,10 +742,11 @@ export default function TripDashboardPage() {
               disabled={analyzingChange || !changePrompt.trim()}
               className="btn btn-primary text-xs px-4 py-2 font-bold flex items-center gap-1.5"
             >
-              {analyzingChange ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
+              {analyzingChange ? <Loader2 size={13} className="animate-spin" /> : <PenTool size={13} />}
               <span>Update Journey</span>
             </button>
           </div>
+
 
           {changeError && (
             <div className="p-3 rounded-[6px] bg-[rgba(249,102,53,0.1)] border border-[var(--coral)] text-xs text-[var(--coral)]">
@@ -845,6 +893,21 @@ export default function TripDashboardPage() {
         isOpen={showDispatchModal}
         onClose={() => setShowDispatchModal(false)}
       />
+
+      {/* Zero-Signal Emergency Offline SOS Pocket Card */}
+      <OfflineSOSCard
+        trip={trip}
+        isOpen={showSOSModal}
+        onClose={() => setShowSOSModal(false)}
+      />
+
+      {/* Build for a Friend: Vintage Airmail Postcard Modal */}
+      <VintagePostcardModal
+        trip={trip}
+        isOpen={showPostcardModal}
+        onClose={() => setShowPostcardModal(false)}
+      />
     </div>
+
   );
 }

@@ -455,13 +455,29 @@ body {
   body {
     background: white !important;
     background-image: none !important;
+    color: black !important;
   }
-  nav, header, footer, .modal-backdrop, .print\:hidden {
+
+  body.print-dispatch-active > div:not(:has([role="dialog"])):not(.fixed),
+  body.print-postcard-active > div:not(.fixed),
+  body.print-sos-active > div:not(.fixed) {
     display: none !important;
   }
+
+  .fixed {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  nav, header, footer, .modal-backdrop, .print\:hidden, button {
+    display: none !important;
+  }
+
   .card, .panel {
     break-inside: avoid;
     border: 1px solid #ccc !important;
     box-shadow: none !important;
   }
 }
+
