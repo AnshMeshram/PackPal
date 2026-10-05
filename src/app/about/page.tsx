@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Cpu, Shield, CloudSun, CheckCircle2 } from 'lucide-react';
+import { PackPalIcon } from '@/components/PackPalIcon';
 
 export default function AboutPage() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function AboutPage() {
           >
             <ArrowLeft size={16} />
           </button>
+          <PackPalIcon size={32} />
           <div>
             <h1 className="text-xl font-bold text-[var(--green-900)]" style={{ fontFamily: 'var(--font-heading)' }}>
               How PackPal works

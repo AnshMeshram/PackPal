@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     description: "A local-AI travel companion for planning trips, packing smarter, organizing itineraries and splitting expenses with friends.",
     type: "website",
   },
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -17,6 +17,7 @@ import { VECTOR_ASSETS } from '@/lib/media/assetResolver';
 import { RouteLine } from '@/components/RouteLine';
 import { TicketStrip } from '@/components/TicketStrip';
 import { StatusDot } from '@/components/StatusDot';
+import { PackPalIcon } from '@/components/PackPalIcon';
 
 export default function Home() {
   const router = useRouter();
@@ -147,9 +148,7 @@ export default function Home() {
       <nav className="px-6 py-4 border-b border-[var(--rule)] bg-[var(--paper)]/95 sticky top-0 z-30 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Logo */}
-          <div className="w-8 h-8 rounded-[6px] bg-[var(--polar)] border border-[var(--emerald-ink)]/30 flex items-center justify-center p-1.5">
-            <Image src={VECTOR_ASSETS.suitcase} alt="PackPal" width={22} height={22} priority />
-          </div>
+          <PackPalIcon size={34} priority />
           <div>
             <span className="font-bold text-lg tracking-tight text-[var(--green-900)]" style={{ fontFamily: 'var(--font-heading)' }}>
               PackPal
@@ -522,6 +521,7 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="py-8 px-6 border-t border-[var(--rule)] bg-[var(--paper)] text-center text-xs text-[var(--ink-muted)]">
         <div className="flex items-center justify-center gap-2 mb-1.5">
+          <PackPalIcon size={22} />
           <span className="font-bold text-sm text-[var(--green-900)]">PackPal</span>
           <span>·</span>
           <span>Open-Source Local AI Travel Companion</span>

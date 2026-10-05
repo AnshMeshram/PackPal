@@ -19,6 +19,7 @@ import {
 import { resolveDestination } from '@/lib/destinations';
 import { EmptyState } from '@/components/EmptyState';
 import { calculateTotalPackedWeight } from '@/lib/packing/weights';
+import { PackPalIcon } from '@/components/PackPalIcon';
 
 export default function TripsPage() {
   const router = useRouter();
@@ -66,6 +67,7 @@ export default function TripsPage() {
           >
             <ArrowLeft size={16} />
           </button>
+          <PackPalIcon size={32} />
           <div>
             <h1
               className="text-xl font-bold text-[var(--green-900)]"

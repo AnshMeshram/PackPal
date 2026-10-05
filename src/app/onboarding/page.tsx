@@ -21,6 +21,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { RouteLine } from '@/components/RouteLine';
+import { PackPalIcon } from '@/components/PackPalIcon';
 
 const ACTIVITY_OPTIONS = [
   'Beach & Swimming', 'Coastal Trekking', 'Mountain Hiking', 'Sightseeing & Culture',
@@ -344,6 +345,7 @@ export default function OnboardingPage() {
           >
             <ArrowLeft size={16} />
           </button>
+          <PackPalIcon size={30} />
           <div>
             <h1 className="text-base font-bold text-[var(--green-900)]" style={{ fontFamily: 'var(--font-heading)' }}>
               Let&apos;s plan your trip

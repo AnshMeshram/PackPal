@@ -18,6 +18,7 @@ import {
   Sliders,
 } from 'lucide-react';
 import { StatusDot } from '@/components/StatusDot';
+import { PackPalIcon } from '@/components/PackPalIcon';
 import {
   loadCustomSettings,
   saveCustomSettings,
@@ -201,6 +202,7 @@ export default function SettingsPage() {
           >
             <ArrowLeft size={16} />
           </button>
+          <PackPalIcon size={30} />
           <div className="min-w-0">
             <h1 className="text-lg sm:text-xl font-bold text-[var(--green-900)]" style={{ fontFamily: 'var(--font-heading)' }}>
               Settings
